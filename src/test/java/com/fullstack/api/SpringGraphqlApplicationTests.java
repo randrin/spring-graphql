@@ -21,7 +21,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class SpringGraphqlApplicationTests {
+public class SpringGraphqlApplicationTests {
 
 	private static final String URI_ADD_PERSONS = "/person/addPersons";
 	private static final String URI_GET_PERSONS = "/person/getPersons";
@@ -46,13 +46,29 @@ class SpringGraphqlApplicationTests {
 		person.setEmail("nzeukangrandrin@gmail.com");
 		person.setMobile("3296187465");
 		person.setName("Nzeukang Nimpa Randrin");
-		String [] address = {"Via Santa Maria", "31/7 Vigevano", "27029 PV"};
-		person.setAddress(address);
+		String [] address1 = {"Via Santa Maria", "31/7 Vigevano", "27029 PV"};
+		person.setAddress(address1);
+		personList.add(person);
+		person.setEmail("vtakou7@gmail.com");
+		person.setMobile("68975125");
+		person.setName("Takou Tsapmene Vanessa");
+		String [] address2 = {"Ngousso Chapelle", "412 Yaoundé", "237 CMR"};
+		person.setAddress(address2);
 		personList.add(person);
 
 		String jsonRequest = objectMapper.writeValueAsString(personList);
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(URI_ADD_PERSONS).content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andReturn();
+		System.out.println("[addPersons]: " +mvcResult.getResponse().getContentAsString());
+	}
+
+	@Test
+	public void getPersons() throws Exception {
+
+		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(URI_GET_PERSONS).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				.andReturn();
+		System.out.println("[getPersons]: " +mvcResult.getResponse().getStatus());
 	}
 }
