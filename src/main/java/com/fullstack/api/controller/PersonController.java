@@ -56,9 +56,9 @@ public class PersonController {
                 typeWriting.dataFetcher("getAllPerson", dataFetcher1).dataFetcher("findPerson", dataFetcher2)).build();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addPersons")
     public String addPerson(@RequestBody List<Person> personList) {
-        personRepository.saveAll(personList);
+        personRepository.save(personList);
         return "Persons added successfuly: " + personList.size();
     }
 
