@@ -1,5 +1,6 @@
 package com.fullstack.api.controller;
 
+import com.fullstack.api.exception.PersonServiceException;
 import com.fullstack.api.model.Person;
 import com.fullstack.api.repository.PersonRepository;
 import com.fullstack.api.service.PersonService;
@@ -71,7 +72,7 @@ public class PersonController {
     }
 
     @GetMapping("/getPersonByName/{name}")
-    public String getPersonByName(@PathVariable String name) {
+    public String getPersonByName(@PathVariable String name) throws PersonServiceException {
         return personService.getPersonByName(name);
     }
 

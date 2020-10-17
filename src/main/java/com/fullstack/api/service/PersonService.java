@@ -1,5 +1,6 @@
 package com.fullstack.api.service;
 
+import com.fullstack.api.exception.PersonServiceException;
 import com.fullstack.api.model.Person;
 import com.fullstack.api.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,13 @@ public class PersonService {
         return personList;
     }
 
-    public String getPersonByName(String name) {
-        Person person = personRepository.findByName(name);
-        return "Person found : " + person.getName() + " - " + person.getEmail();
+    public String getPersonByName(String name) throws PersonServiceException {
+        Person person = null;
+        try {
+            person = personRepository.findByName(name);
+            return "Person found : " + person.getName() + " - " + person.getEmail();
+        } catch (Exception e) {
+            throw new PersonServiceException("Person not found with name: " +name);
+        }
     }
 }
