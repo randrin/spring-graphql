@@ -2,6 +2,7 @@ package com.fullstack.api.controller;
 
 import com.fullstack.api.model.Person;
 import com.fullstack.api.repository.PersonRepository;
+import com.fullstack.api.service.PersonService;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.DataFetcher;
@@ -28,6 +29,9 @@ public class PersonController {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonService personService;
 
     @Value("classpath:person.graphqls")
     private Resource schemaResource;
@@ -57,15 +61,18 @@ public class PersonController {
     }
 
     @PostMapping("/addPersons")
-    public String addPerson(@RequestBody List<Person> personList) {
-        personRepository.save(personList);
-        return "Persons added successfuly: " + personList.size();
+    public String addPersons(@RequestBody List<Person> personList) {
+        return personService.addPersons(personList);
     }
 
     @GetMapping("/getPersons")
     public List<Person> getPersons() {
-        List<Person> personList = (List<Person>) personRepository.findAll();
-        return personList;
+        return personService.getPersons();
+    }
+
+    @GetMapping("/getPersonByName/{name}")
+    public String getPersonByName(@PathVariable String name) {
+        return personService.getPersonByName(name);
     }
 
     @PostMapping("/getAllPersons")
